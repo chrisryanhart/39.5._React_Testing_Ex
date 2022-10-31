@@ -9,8 +9,32 @@ function Carousel(props) {
   const [cardIdx, setCardIdx] = useState(0);
   const card = props.cardData[cardIdx];
   const total = props.cardData.length;
-  const goForward = () => setCardIdx(cardIdx + 1);
-  const goBackward = () => setCardIdx(cardIdx - 1);
+  const goForward = () => {
+
+    setCardIdx(cardIdx + 1);
+    if (cardIdx === 0){
+      setLeftArrow('visible');
+    }
+    if (cardIdx + 1 === total -1){
+      setRightArrow('hidden');
+    }
+  }
+
+  const goBackward = () => {
+    setCardIdx(cardIdx - 1);
+
+    if (cardIdx === 1){
+      setLeftArrow('hidden');
+    }
+    if (cardIdx + 1 === total){
+      setRightArrow('visible');
+    }
+  }
+
+  const initialRightArrow = total > 1 ? 'visible' : 'hidden';
+
+  const [rightArrow, setRightArrow] = useState(initialRightArrow);
+  const [leftArrow, setLeftArrow] = useState('hidden');
 
   return (
     <div className="Carousel">
@@ -20,6 +44,7 @@ function Carousel(props) {
           className="fas fa-chevron-circle-left fa-2x"
           onClick={goBackward}
           data-testid="left-arrow"
+          style={{visibility: leftArrow}}
         />
         <Card
           caption={card.caption}
@@ -31,6 +56,8 @@ function Carousel(props) {
           className="fas fa-chevron-circle-right fa-2x"
           onClick={goForward}
           data-testid="right-arrow"
+          style={{visibility: rightArrow}}
+
         />
       </div>
     </div>
@@ -56,3 +83,13 @@ Carousel.defaultProps = {
 };
 
 export default Carousel;
+
+// ,
+//     {
+//       src: image2,
+//       caption: "Photo by Pratik Patel on Unsplash"
+//     },
+    // {
+    //   src: image3,
+    //   caption: "Photo by Josh Post on Unsplash"
+    // }
